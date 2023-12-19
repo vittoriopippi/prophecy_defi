@@ -42,4 +42,4 @@ To close the server press `ctrl + C`
 
 ## Enjoy!
  - http://127.0.0.1:5000/home-pages/home-v2
- - http://127.0.0.1:5000/intergations/bitcoin
+ - http://127.0.0.1:5000/integrations/bitcoin
