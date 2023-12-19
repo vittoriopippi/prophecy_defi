@@ -1,10 +1,9 @@
 # Prophecy DeFi
 Install python https://www.python.org/downloads/
 
-## Install GIT
-If you are a mac user, download GIT from [this](https://git-scm.com/download/mac) link.
-
 ```
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+brew install git
 git clone https://github.com/vittoriopippi/prophecy_defi.git
 cd prophecy_defi
 python -m ensurepip
