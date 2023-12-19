@@ -1,6 +1,7 @@
 # Prophecy DeFi
-Install python https://www.python.org/downloads/
 
+## Installation
+Install python https://www.python.org/downloads/
 ```
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install git
@@ -11,6 +12,10 @@ pip install virtualenv
 python -m virtualenv venv
 source venv/bin/activate
 pip install -r requirements.txt
+```
+
+## Import new version of webflow
+```
 python setup_webflow.py webflow_prophecy_defi.zip
 python app.py
 ```
