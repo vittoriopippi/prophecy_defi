@@ -10,17 +10,20 @@ Close the terminal and reopen it.
 ```
 brew doctor
 brew install git
+```
+With the terminal open the desired location where you want to create the project. (E.g., `cd ~/Desktop` if you want to create it on the Desktop)
+```
 git clone https://github.com/vittoriopippi/prophecy_defi.git
 cd prophecy_defi
-python -m ensurepip
-pip install virtualenv
-python -m virtualenv venv
+python3 -m ensurepip
+pip3 install virtualenv
+python3 -m virtualenv venv
 source venv/bin/activate
-pip install -r requirements.txt
+pip3 install -r requirements.txt
 ```
 
 ## Import new version of webflow
 ```
-python setup_webflow.py webflow_prophecy_defi.zip
-python app.py
+python3 setup_webflow.py webflow_prophecy_defi.zip
+python3 app.py
 ```
