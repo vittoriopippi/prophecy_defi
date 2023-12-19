@@ -22,8 +22,19 @@ source venv/bin/activate
 pip3 install -r requirements.txt
 ```
 
+## Download the file `keys.py` da Lorenzo
+Move the file into the project folder
+
 ## Import new version of webflow
+Download the webflow zip project and move it into the project folder
 ```
 python3 setup_webflow.py webflow_prophecy_defi.zip
 python3 app.py
 ```
+
+## Close the server
+To close the server press `ctrl + C`
+
+## Enjoy!
+ - http://127.0.0.1:5000/home-pages/home-v2
+ - http://127.0.0.1:5000/intergations/bitcoin
