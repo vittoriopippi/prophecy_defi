@@ -1,9 +1,13 @@
-from flask import Flask, render_template, redirect, jsonify, abort
+from flask import Flask, render_template, redirect, jsonify, abort, request
 from jinja2 import TemplateNotFound
 import requests
 from datetime import datetime
-from keys import COINMARKETCAP_KEY
+from keys import COINMARKETCAP_KEY, MAIL_CONFIG
 import yfinance as yf
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
+import json
 
 app = Flask(__name__)
 
@@ -25,6 +29,41 @@ def render_static(page):
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+    
+@app.route('/thank-you', methods=['GET', 'POST'])
+def send_email():
+    if request.method == 'POST':
+        # Extract required information from the request data
+        # name = data.get('Name')
+        # email = data.get('Email-2')
+        # phone = data.get('Phone')
+        # company_name = data.get('Company-name')
+        # message = data.get('Message')
+
+        sender_email = MAIL_CONFIG['MAIL_USERNAME']
+        sender_password = MAIL_CONFIG['MAIL_PASSWORD']
+        receiver_email = MAIL_CONFIG['MAIL_USERNAME']
+
+        message = MIMEMultipart()
+        message['From'] = sender_email
+        message['To'] = receiver_email
+        message['Subject'] = 'New Contact Form Submission'
+
+        msg = json.dumps(request.form, indent=4)
+        message.attach(MIMEText(msg, 'plain'))
+
+        try:
+            server = smtplib.SMTP('smtp.gmail.com', 587)
+            server.starttls()
+            server.login(sender_email, sender_password)
+            server.sendmail(sender_email, receiver_email, message.as_string())
+            server.quit()
+        except Exception as e:
+            print(str(e))
+
+        return render_template('thank-you.html')
+    else:
+        return redirect('/')
 
 @app.route('/api/general_info', methods=['GET'])
 def general_info():
