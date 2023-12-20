@@ -42,7 +42,7 @@ def general_info():
     return jsonify(response)
 
 @app.route('/api/crypto/<path:symbol>', methods=['GET'])
-def get_crypto_btc(symbol):
+def get_crypto(symbol):
     url = 'https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest'
     parameters = {
         'convert': 'USD'
@@ -73,7 +73,7 @@ def get_crypto_btc(symbol):
     return jsonify(response)
 
 @app.route('/api/miner/<path:symbol>', methods=['GET'])
-def get_crypto_btc(symbol):
+def get_miner(symbol):
     data = yf.Ticker(symbol)
     info = data.info
 
