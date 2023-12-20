@@ -1,4 +1,5 @@
-from flask import Flask, render_template, redirect, jsonify
+from flask import Flask, render_template, redirect, jsonify, abort
+from jinja2 import TemplateNotFound
 import requests
 from datetime import datetime
 from keys import COINMARKETCAP_KEY
@@ -16,7 +17,14 @@ def render_static(page):
     page = page.replace('.html', '')
     if page == 'index':
         return redirect('/')
-    return render_template(f'{page}.html')
+    try:
+        return render_template(f'{page}.html')
+    except TemplateNotFound:
+        abort(404)
+
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
 
 @app.route('/api/general_info', methods=['GET'])
 def general_info():
@@ -86,4 +94,4 @@ def get_miner(symbol):
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(debug=False)
