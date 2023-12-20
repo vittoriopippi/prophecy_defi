@@ -2,6 +2,7 @@ from flask import Flask, render_template, redirect, jsonify
 import requests
 from datetime import datetime
 from keys import COINMARKETCAP_KEY
+import yfinance as yf
 
 app = Flask(__name__)
 
@@ -68,6 +69,19 @@ def get_crypto_btc(symbol):
         "volume": f"${volume:,.02f}",
         "market_cap": f"${market_cap:,.02f}",
         "circulation_supply": f"{circulation_supply:,.02f}",
+    }
+    return jsonify(response)
+
+@app.route('/api/miner/<path:symbol>', methods=['GET'])
+def get_crypto_btc(symbol):
+    data = yf.Ticker(symbol)
+    info = data.info
+
+    response = {
+        "previous_close": f"${info['previousClose']:.02f}",
+        "volume": f"${info['volume']:,.0f}",
+        "market_cap": f"${info['marketCap']:,.0f}",
+        "current_price": f"${info['currentPrice']:.02f}",
     }
     return jsonify(response)
 
