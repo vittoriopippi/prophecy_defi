@@ -60,6 +60,8 @@ def send_email():
             server.quit()
         except Exception as e:
             print(str(e))
+            with open('forms.txt', 'a') as f:
+                f.write(message.as_string() + '\n')
 
         return render_template('thank-you.html')
     else:
