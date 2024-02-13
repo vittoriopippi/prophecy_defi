@@ -8,6 +8,7 @@ from googleapiclient.errors import HttpError
 
 import base64
 from email.message import EmailMessage
+from keys import CREDENTIALS, TOKEN
 
 # If modifying these scopes, delete the file token.json.
 
@@ -17,20 +18,20 @@ def gmail_send_message(message):
     # The file token.json stores the user's access and refresh tokens, and is
     # created automatically when the authorization flow completes for the first
     # time.
-    if os.path.exists("token.json"):
-        creds = Credentials.from_authorized_user_file("token.json", scopes)
+    if os.path.exists(TOKEN):
+        creds = Credentials.from_authorized_user_file(TOKEN, scopes)
     # If there are no (valid) credentials available, let the user log in.
     if not creds or not creds.valid:
         if creds and creds.expired and creds.refresh_token:
             creds.refresh(Request())
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
-                "credentials.json", scopes
+                CREDENTIALS, scopes
             )
             creds = flow.run_local_server(port=0)
 
     # Save the credentials for the next run
-    with open("token.json", "w") as token:
+    with open(TOKEN, "w") as token:
         token.write(creds.to_json())
 
     # creds, project = google.auth.default()
