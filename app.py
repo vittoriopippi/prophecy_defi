@@ -8,6 +8,8 @@ import smtplib
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
 import json
+from email.message import EmailMessage
+from google_send_email import gmail_send_message
 
 app = Flask(__name__)
 
@@ -33,35 +35,18 @@ def page_not_found(error):
 @app.route('/thank-you', methods=['GET', 'POST'])
 def send_email():
     if request.method == 'POST':
-        # Extract required information from the request data
-        # name = data.get('Name')
-        # email = data.get('Email-2')
-        # phone = data.get('Phone')
-        # company_name = data.get('Company-name')
-        # message = data.get('Message')
+        message = EmailMessage()
 
-        sender_email = MAIL_CONFIG['MAIL_USERNAME']
-        sender_password = MAIL_CONFIG['MAIL_PASSWORD']
-        receiver_email = MAIL_CONFIG['MAIL_USERNAME']
+        message.set_content(json.dumps(request.form, indent=4))
 
-        message = MIMEMultipart()
-        message['From'] = sender_email
-        message['To'] = receiver_email
-        message['Subject'] = 'New Contact Form Submission'
+        message["To"] = MAIL_CONFIG['MAIL_USERNAME']
+        message["From"] = MAIL_CONFIG['MAIL_USERNAME']
+        message["Subject"] = "New form submission from prophecydefi.com"
 
-        msg = json.dumps(request.form, indent=4)
-        message.attach(MIMEText(msg, 'plain'))
+        gmail_send_message(message)
 
-        try:
-            server = smtplib.SMTP('smtp.gmail.com', 587)
-            server.starttls()
-            server.login(sender_email, sender_password)
-            server.sendmail(sender_email, receiver_email, message.as_string())
-            server.quit()
-        except Exception as e:
-            print(str(e))
-            with open('forms.txt', 'a') as f:
-                f.write(message.as_string() + '\n')
+        with open('forms.txt', 'a') as f:
+            f.write(message.as_string() + '\n')
 
         return render_template('thank-you.html')
     else:
@@ -135,4 +120,4 @@ def get_miner(symbol):
     return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=False, port=5001)
